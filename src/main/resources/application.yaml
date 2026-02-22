@@ -1,0 +1,5 @@
+jifelog:
+  security:
+    jwt:
+      secret: secret
+      issuer: issuer
