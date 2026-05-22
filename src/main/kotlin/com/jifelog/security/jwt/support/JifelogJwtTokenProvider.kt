@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.text.ParseException
-import java.time.Instant
 
 class JifelogJwtTokenProvider(
     private val jwtProperties: JifelogJwtProperties
@@ -43,27 +42,27 @@ class JifelogJwtTokenProvider(
         }
 
         val claims = jwt.jwtClaimsSet
-        val expiresAt = claims.expirationTime?.toInstant()
-
-        if (expiresAt == null || Instant.now().isAfter(expiresAt)) {
-            return null
-        }
+//        val expiresAt = claims.expirationTime?.toInstant()
+//
+//        if (expiresAt == null || Instant.now().isAfter(expiresAt)) {
+//            return null
+//        }
 
         val issuer = jwtProperties.issuer
         if (issuer != null && issuer != claims.issuer) {
             return null
         }
 
-        val userId = claims.getStringClaim("id")
-        val email = claims.getStringClaim("em")
+        val userId = claims.getStringClaim("ui")
         val username = claims.getStringClaim("un")
+        val nickname = claims.getStringClaim("nn")
         val roles = extractRoles(claims.getClaim("roles"))
 
         val principal = JifelogPrincipal(
             userId = userId,
-            email = email,
             username = username,
-            roles = roles
+            nickname = nickname,
+            roles = roles,
         )
 
         val authorities = roles.map(::SimpleGrantedAuthority)
