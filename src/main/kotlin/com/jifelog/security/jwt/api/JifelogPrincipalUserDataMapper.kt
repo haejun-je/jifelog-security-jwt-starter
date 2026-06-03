@@ -4,8 +4,8 @@ object JifelogPrincipalUserDataMapper {
     fun toUserData(principal: JifelogPrincipal): JifelogUserData {
         return JifelogUserData(
             userId = principal.userId,
-            email = principal.email,
-            username = principal.username
+            username = principal.username,
+            nickname = principal.nickname,
         )
     }
 }
